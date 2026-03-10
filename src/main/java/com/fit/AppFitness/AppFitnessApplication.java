@@ -1,0 +1,13 @@
+package com.fit.AppFitness;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AppFitnessApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AppFitnessApplication.class, args);
+	}
+
+}
