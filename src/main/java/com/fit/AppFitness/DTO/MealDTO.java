@@ -1,10 +1,8 @@
 package com.fit.AppFitness.DTO;
 
 import Meal.Enum.MealType;
-import MealFood.MealFoodModel;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -58,6 +56,7 @@ public class MealDTO {
         private String notes;
     }
 
+    @Data
     public static class dailySummaryResponse{
         private LocalDate date;
         private Integer totalCalories;

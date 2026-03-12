@@ -42,4 +42,40 @@ public class MealModel {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public Integer getTotalCalories() {
+        return foods.stream()
+                .mapToInt(mf -> {
+                    double multiplier = mf.getQuantity() / mf.getFood().getServingSize();
+                    return (int) (mf.getFood().getCalories() * multiplier);
+                })
+                .sum();
+    }
+
+    public Double getTotalProtein() {
+        return foods.stream()
+                .mapToDouble(mf -> {
+                    double multiplier = mf.getQuantity() / mf.getFood().getServingSize();
+                    return mf.getFood().getProtein() * multiplier;
+                })
+                .sum();
+    }
+
+    public Double getTotalCarbs() {
+        return foods.stream()
+                .mapToDouble(mf -> {
+                    double multiplier = mf.getQuantity() / mf.getFood().getServingSize();
+                    return mf.getFood().getCarbs() * multiplier;
+                })
+                .sum();
+    }
+
+    public Double getTotalFat() {
+        return foods.stream()
+                .mapToDouble(mf -> {
+                    double multiplier = mf.getQuantity() / mf.getFood().getServingSize();
+                    return mf.getFood().getFat() * multiplier;
+                })
+                .sum();
+    }
+
 }

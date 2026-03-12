@@ -49,6 +49,7 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private UserGoal goal;
     private Integer dailyCalorieGoal;
+    private Integer proteinGoal;
     private Integer carbsGoal;
     private Integer fatGoal;
 

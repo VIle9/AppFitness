@@ -24,7 +24,8 @@ public class UserDTO {
         private UserGender gender;
         private UserActivityLevel activityLevel;
         private UserGoal goal;
-        private Integer dayliCalorieGoal;
+        private Integer dailyCalorieGoal;
+        private Integer proteinGoal;
         private Integer carbsGoal;
         private Integer fatGoal;
         private UserSubscriptionStatus subscriptionStatus;
