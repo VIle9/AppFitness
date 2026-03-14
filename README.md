@@ -5,7 +5,7 @@ SaaS para gerenciamento de nutrição, calorias e macronutrientes.
 - Java17
 - Spring Boot 4.0.3
 - PostgreSQL
-- Spring Security + JWT
+- Spring security + JWT
 - Spring Data JPA
 - Maven
 
