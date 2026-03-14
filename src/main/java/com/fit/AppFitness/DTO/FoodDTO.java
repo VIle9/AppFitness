@@ -24,7 +24,7 @@ public class FoodDTO {
     }
 
     @Data
-    public static class createFoodRequest{
+    public static class CreateFoodRequest {
 
         @NotBlank(message = "Nome é obrigatório")
         private String name;

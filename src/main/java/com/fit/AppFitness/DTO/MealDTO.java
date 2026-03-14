@@ -10,11 +10,11 @@ import java.util.List;
 public class MealDTO {
 
     @Data
-    public static class mealResponse{
+    public static class MealResponse {
         private Long id;
         private LocalDate date;
         private MealType mealType;
-        private List<mealFoodItem> foods;
+        private List<MealFoodItem> foods;
         private Integer totalCalories;
         private Double totalProteins;
         private Double totalCarbs;
@@ -22,7 +22,7 @@ public class MealDTO {
     }
 
     @Data
-    public static class mealFoodItem{
+    public static class MealFoodItem {
         private Long foodId;
         private String foodName;
         private Double quantity;
@@ -33,7 +33,7 @@ public class MealDTO {
     }
 
     @Data
-    public static class createMealRequest{
+    public static class CreateMealRequest {
 
         @NotBlank(message = "Data é obrigatório")
         private LocalDate date;
@@ -42,11 +42,11 @@ public class MealDTO {
         private MealType mealType;
 
         @NotBlank(message = "Alimentos são obrigatórios")
-        private List<mealFoodRequest> foods;
+        private List<MealFoodRequest> foods;
     }
 
     @Data
-    public static class mealFoodRequest{
+    public static class MealFoodRequest {
 
         @NotBlank(message = "ID da comida é obrigatório")
         private Long foodId;
@@ -57,7 +57,7 @@ public class MealDTO {
     }
 
     @Data
-    public static class dailySummaryResponse{
+    public static class DailySummaryResponse {
         private LocalDate date;
         private Integer totalCalories;
         private Double totalProtein;
@@ -67,6 +67,6 @@ public class MealDTO {
         private Integer proteinGoal;
         private Integer carbGoals;
         private Integer fatGoals;
-        private List<mealResponse> meals;
+        private List<MealResponse> meals;
     }
 }

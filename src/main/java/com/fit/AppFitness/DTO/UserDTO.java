@@ -4,16 +4,14 @@ import User.Enums.UserActivityLevel;
 import User.Enums.UserGender;
 import User.Enums.UserGoal;
 import User.Enums.UserSubscriptionStatus;
-import User.UserModel;
 import lombok.Data;
-import org.apache.catalina.User;
 
 import java.time.LocalDate;
 
 public class UserDTO {
 
     @Data
-    public static class userProfileResponse{
+    public static class UserProfileResponse {
         private Long id;
         private String email;
         private String password;
@@ -32,7 +30,7 @@ public class UserDTO {
     }
 
     @Data
-    public static class updateProfileRequest{
+    public static class UpdateProfileRequest {
         private String name;
         private Double weight;
         private Double height;
@@ -43,7 +41,7 @@ public class UserDTO {
     }
 
     @Data
-    public static class updateGoalRequest{
+    public static class UpdateGoalRequest {
         private UserGoal goal;
         private UserActivityLevel activityLevel;
     }

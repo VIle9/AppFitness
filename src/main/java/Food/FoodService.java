@@ -38,7 +38,7 @@ public class FoodService {
         return mapToResponse(food);
     }
 
-    public FoodDTO.FoodResponse createFood(FoodDTO.createFoodRequest request){
+    public FoodDTO.FoodResponse createFood(FoodDTO.CreateFoodRequest request){
         UserModel currentUser = userService.getCurrentUser();
 
         FoodModel food = new FoodModel();

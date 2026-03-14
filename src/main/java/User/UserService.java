@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -22,12 +21,12 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
     }
 
-    public UserDTO.userProfileResponse getProfile(){
+    public UserDTO.UserProfileResponse getProfile(){
         UserModel user = getCurrentUser();
         return mapToProfileResponse(user);
     }
 
-    public UserDTO.userProfileResponse updateProfile(UserDTO.updateProfileRequest request){
+    public UserDTO.UserProfileResponse updateProfile(UserDTO.UpdateProfileRequest request){
         UserModel user = getCurrentUser();
 
         if(request.getName() != null) user.setName(request.getName());
@@ -37,6 +36,18 @@ public class UserService {
         if(request.getGender() != null) user.setGender(request.getGender());
         if(request.getActivityLevel() != null) user.setActivityLevel(request.getActivityLevel());
         if(request.getGoal() != null) user.setGoal(request.getGoal());
+
+        calculateAndSetGoals(user);
+
+        UserModel savedUser = userRepository.save(user);
+        return mapToProfileResponse(savedUser);
+    }
+
+    public UserDTO.UserProfileResponse updateGoals(UserDTO.UpdateProfileRequest request){
+        UserModel user = getCurrentUser();
+
+        if(request.getGoal() != null) user.setGoal(request.getGoal());
+        if(request.getActivityLevel() != null) user.setActivityLevel(request.getActivityLevel());
 
         calculateAndSetGoals(user);
 
@@ -83,8 +94,8 @@ public class UserService {
         user.setFatGoal((int) (dailyCalories * 0.30 / 9));
     }
 
-    private UserDTO.userProfileResponse mapToProfileResponse(UserModel user){
-        UserDTO.userProfileResponse response = new UserDTO.userProfileResponse();
+    private UserDTO.UserProfileResponse mapToProfileResponse(UserModel user){
+        UserDTO.UserProfileResponse response = new UserDTO.UserProfileResponse();
         response.setId(user.getId());
         response.setName(user.getName());
         response.setEmail(user.getEmail());
@@ -101,4 +112,5 @@ public class UserService {
         response.setSubscriptionStatus(user.getSubscriptionStatus());
         return response;
     }
+
 }

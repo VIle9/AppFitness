@@ -8,7 +8,6 @@ import User.UserService;
 import com.fit.AppFitness.DTO.MealDTO;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,7 +27,7 @@ public class MealService {
     @Autowired
     private UserService userService;
 
-    public MealDTO.mealResponse createMeal(MealDTO.createMealRequest request){
+    public MealDTO.MealResponse createMeal(MealDTO.CreateMealRequest request){
         UserModel currentUser = userService.getCurrentUser();
 
         MealModel meal = new MealModel();
@@ -36,7 +35,7 @@ public class MealService {
         meal.setDate(request.getDate());
         meal.setMealType(request.getMealType());
 
-        for(MealDTO.mealFoodRequest foodRequest : request.getFoods()){
+        for(MealDTO.MealFoodRequest foodRequest : request.getFoods()){
             FoodModel food = foodRepository.findById(foodRequest.getFoodId())
                     .orElseThrow(() -> new RuntimeException("Alimento não encontrado: " + foodRequest.getFoodId()));
 
@@ -53,7 +52,7 @@ public class MealService {
         return mapToResponse(savedMeal);
     }
 
-    public List<MealDTO.mealResponse> getMealsByDate(LocalDate date){
+    public List<MealDTO.MealResponse> getMealsByDate(LocalDate date){
         UserModel currentUser = userService.getCurrentUser();
         List<MealModel> meals = mealRepository.findByUserIdAndDate(currentUser.getId(), date);
         return meals.stream().
@@ -61,11 +60,11 @@ public class MealService {
                 collect(Collectors.toList());
     }
 
-    public MealDTO.dailySummaryResponse getDailySummary(LocalDate date){
+    public MealDTO.DailySummaryResponse getDailySummary(LocalDate date){
         UserModel currentUser = userService.getCurrentUser();
         List<MealModel> meals = mealRepository.findByUserIdAndDate(currentUser.getId(), date);
 
-        MealDTO.dailySummaryResponse summary = new MealDTO.dailySummaryResponse();
+        MealDTO.DailySummaryResponse summary = new MealDTO.DailySummaryResponse();
         summary.setDate(date);
         summary.setCalorieGoal(currentUser.getDailyCalorieGoal());
         summary.setProteinGoal(currentUser.getProteinGoal());
@@ -77,7 +76,7 @@ public class MealService {
         double totalCarbs = 0;
         double totalFat = 0;
 
-        List<MealDTO.mealResponse> mealResponses = new ArrayList<>();
+        List<MealDTO.MealResponse> mealResponses = new ArrayList<>();
 
         for(MealModel meal : meals){
             totalCalories += meal.getTotalCalories();
@@ -110,8 +109,8 @@ public class MealService {
         mealRepository.delete(meal);
     }
 
-    private MealDTO.mealResponse mapToResponse(MealModel meal){
-        MealDTO.mealResponse response = new MealDTO.mealResponse();
+    private MealDTO.MealResponse mapToResponse(MealModel meal){
+        MealDTO.MealResponse response = new MealDTO.MealResponse();
         response.setId(meal.getId());
         response.setDate(meal.getDate());
         response.setMealType(meal.getMealType());
@@ -120,9 +119,9 @@ public class MealService {
         response.setTotalCarbs(meal.getTotalCarbs());
         response.setTotalFat(meal.getTotalFat());
 
-        List<MealDTO.mealFoodItem> foodItems = meal.getFoods().stream()
+        List<MealDTO.MealFoodItem> foodItems = meal.getFoods().stream()
                 .map(mf -> {
-                    MealDTO.mealFoodItem item = new MealDTO.mealFoodItem();
+                    MealDTO.MealFoodItem item = new MealDTO.MealFoodItem();
                     item.setFoodId(mf.getFood().getId());
                     item.setFoodName(mf.getFood().getName());
                     item.setQuantity(mf.getQuantity());
