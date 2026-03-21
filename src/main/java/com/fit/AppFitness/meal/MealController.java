@@ -36,7 +36,7 @@ public class MealController {
         return ResponseEntity.ok(mealService.getDailySummary(targetDate));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMeal(@PathVariable Long id){
         mealService.deleteMeal(id);
         return ResponseEntity.noContent().build();

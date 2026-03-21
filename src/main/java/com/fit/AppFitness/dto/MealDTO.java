@@ -2,7 +2,11 @@ package com.fit.AppFitness.dto;
 
 import com.fit.AppFitness.meal.enums.MealType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,6 +14,8 @@ import java.util.List;
 public class MealDTO {
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MealResponse {
         private Long id;
         private LocalDate date;
@@ -33,25 +39,31 @@ public class MealDTO {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CreateMealRequest {
 
-        @NotBlank(message = "Data é obrigatório")
+        @NotNull(message = "Data é obrigatório")
         private LocalDate date;
 
-        @NotBlank(message = "Tipo de refeição é obrigatório")
+        @NotNull(message = "Tipo de refeição é obrigatório")
         private MealType mealType;
 
-        @NotBlank(message = "Alimentos são obrigatórios")
+        @NotNull(message = "Alimentos são obrigatórios")
         private List<MealFoodRequest> foods;
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MealFoodRequest {
 
-        @NotBlank(message = "ID da comida é obrigatório")
+        @NotNull(message = "ID da comida é obrigatório")
+        @Positive(message = "ID deve ser positivo.")
         private Long foodId;
 
-        @NotBlank(message = "Quantidade é obrigatório")
+        @NotNull(message = "Quantidade é obrigatório")
+        @Positive(message = "Quantidade tem que ser positiva.")
         private Double quantity;
         private String notes;
     }

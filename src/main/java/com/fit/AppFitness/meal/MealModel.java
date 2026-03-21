@@ -3,9 +3,7 @@ package com.fit.AppFitness.meal;
 import com.fit.AppFitness.meal.enums.MealType;
 import com.fit.AppFitness.mealfood.MealFoodModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.fit.AppFitness.user.UserModel;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,6 +17,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"foods", "user"})
+@EqualsAndHashCode(exclude = {"foods", "user"})
 public class MealModel {
 
     @Id

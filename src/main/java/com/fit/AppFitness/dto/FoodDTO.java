@@ -3,7 +3,11 @@ package com.fit.AppFitness.dto;
 import com.fit.AppFitness.foods.enums.FoodType;
 import com.fit.AppFitness.foods.enums.FoodUnit;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class FoodDTO {
 
@@ -24,26 +28,29 @@ public class FoodDTO {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CreateFoodRequest {
 
         @NotBlank(message = "Nome é obrigatório")
         private String name;
         private String brand;
 
-        @NotBlank(message = "Tamanho da porção é obrigatório")
+        @NotNull(message = "Tamanho da porção é obrigatório.")
+        @Positive(message = "Tamanho da porção deve ser positiva.")
         private Double servingSize;
         private FoodUnit unit = FoodUnit.GRAMS;
 
-        @NotBlank(message = "Calorias são obrigatórias")
+        @NotNull(message = "Caloria é obrigatório.")
         private Integer calories;
 
-        @NotBlank(message = "Proteinas são obrigatórias")
+        @NotNull(message = "Proteina é obrigatório.")
         private Double protein;
 
-        @NotBlank(message = "Carboidratos são obrigatórios")
+        @NotNull(message = "Carboidrato é obrigatório.")
         private Double carbs;
 
-        @NotBlank(message = "Gordura é obrigatórias")
+        @NotNull(message = "Gordura é obrigatório.")
         private Double fat;
 
         private Double fiber;
