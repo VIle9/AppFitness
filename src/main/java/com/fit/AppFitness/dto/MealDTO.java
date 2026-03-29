@@ -18,6 +18,7 @@ public class MealDTO {
     @AllArgsConstructor
     public static class MealResponse {
         private Long id;
+        private String name;
         private LocalDate date;
         private MealType mealType;
         private List<MealFoodItem> foods;
@@ -42,6 +43,9 @@ public class MealDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateMealRequest {
+
+        @NotNull(message = "Nome é obrigatório.")
+        private String name;
 
         @NotNull(message = "Data é obrigatório")
         private LocalDate date;
@@ -70,6 +74,7 @@ public class MealDTO {
 
     @Data
     public static class DailySummaryResponse {
+        private String name;
         private LocalDate date;
         private Integer totalCalories;
         private Double totalProtein;

@@ -6,25 +6,24 @@ import com.fit.AppFitness.mealfood.MealFoodModel;
 import com.fit.AppFitness.user.UserModel;
 import com.fit.AppFitness.user.UserService;
 import com.fit.AppFitness.dto.MealDTO;
-import com.fit.AppFitness.user.UserModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MealService {
 
-    @Autowired
     private MealRepository mealRepository;
-
-    @Autowired
     private FoodRepository foodRepository;
-
-    @Autowired
     private UserService userService;
 
     public MealDTO.MealResponse createMeal(MealDTO.CreateMealRequest request){
@@ -32,6 +31,7 @@ public class MealService {
 
         MealModel meal = new MealModel();
         meal.setUser(currentUser);
+        meal.setName(request.getName());
         meal.setDate(request.getDate());
         meal.setMealType(request.getMealType());
 
@@ -109,7 +109,7 @@ public class MealService {
         mealRepository.delete(meal);
     }
 
-    private MealDTO.MealResponse mapToResponse(MealModel meal){
+    public MealDTO.MealResponse mapToResponse(MealModel meal){
         MealDTO.MealResponse response = new MealDTO.MealResponse();
         response.setId(meal.getId());
         response.setDate(meal.getDate());
@@ -138,5 +138,36 @@ public class MealService {
 
         response.setFoods(foodItems);
         return response;
+    }
+
+    @Transactional
+    public MealModel copyMeal(Long userId, Long mealId, LocalDate newDate){
+        MealModel originalMeal = mealRepository.findById(mealId)
+                .orElseThrow(() -> new RuntimeException("Refeição não encontrada."));
+
+        if(!originalMeal.getUser().getId().equals(userId)){
+            throw new RuntimeException("Não autorizado.");
+        }
+
+        MealModel newMeal = new MealModel();
+        newMeal.setUser(originalMeal.getUser());
+        newMeal.setName(originalMeal.getName() + " (cópia)");
+        newMeal.setDate(originalMeal.getDate());
+        newMeal.setMealType(originalMeal.getMealType());
+        newMeal.setNotes(originalMeal.getNotes());
+
+        if(originalMeal.getFoods() != null && !originalMeal.getFoods().isEmpty()){
+            Set<MealFoodModel> copiedFoods = new HashSet<>();
+
+            for(MealFoodModel originalMealFood : originalMeal.getFoods()){
+                MealFoodModel newMealFood = new MealFoodModel();
+                newMealFood.setMeal(newMeal);
+                newMealFood.setFood(originalMealFood.getFood());
+                newMealFood.setQuantity(originalMealFood.getQuantity());
+                copiedFoods.add(newMealFood);
+            }
+            newMeal.setFoods(copiedFoods);
+        }
+        return mealRepository.save(newMeal);
     }
 }

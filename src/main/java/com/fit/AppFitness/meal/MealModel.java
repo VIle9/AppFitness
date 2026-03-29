@@ -30,6 +30,12 @@ public class MealModel {
     private UserModel user;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String notes;
+
+    @Column(nullable = false)
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)

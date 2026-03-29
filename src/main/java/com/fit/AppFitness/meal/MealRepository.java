@@ -12,4 +12,6 @@ public interface MealRepository extends JpaRepository<MealModel, Long> {
     List<MealModel> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate);
 
     List<MealModel> findByUserIdOrderByDateDesc(Long userId);
+
+    List<MealModel> findByUserIdAndDateBetweenOrderByDateDesc(Long userId, LocalDate startDate, LocalDate endDate);
 }

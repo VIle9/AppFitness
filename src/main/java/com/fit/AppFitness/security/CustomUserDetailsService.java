@@ -2,6 +2,7 @@ package com.fit.AppFitness.security;
 
 import com.fit.AppFitness.user.UserModel;
 import com.fit.AppFitness.user.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,5 +30,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 new ArrayList<>()
         );
+    }
+
+    public Long getUserIdFromAuthentication(Authentication authentication){
+        String email = authentication.getName();
+        UserModel user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+        return user.getId();
     }
 }
